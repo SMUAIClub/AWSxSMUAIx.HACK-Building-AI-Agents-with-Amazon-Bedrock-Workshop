@@ -10,6 +10,62 @@ Region is fixed to `us-east-1` (workshop account restriction).
 
 ![Architecture diagram: browser authenticates via Cognito and gets temporary credentials from the Identity Pool, loads the frontend from Amplify, and calls the AgentCore Runtime (Strands agent on Nova 2 Lite), which uses AgentCore Memory and the AgentCore Gateway to invoke the geo_coordinates, weather_forecast, and date_time Lambda functions.](assets/architecture.png)
 
+## Quickstart
+
+**Prerequisites:** `terraform` (>= 1.5), `aws` CLI configured with credentials
+for the target account (`us-east-1`), `pip`, `zip`. The agent runtime code and
+frontend bundle are both built/zipped and uploaded locally during `apply` —
+see `terraform/artifact.tf` and `terraform/amplify.tf`.
+
+**1. Apply.** The test user's password has no default (so nothing sensitive
+lives in this repo) — pass it with `-var`, or put it in a gitignored
+`*.tfvars` file:
+
+```bash
+cd terraform
+terraform init
+terraform apply -var="test_user_password=<something satisfying the password policy>"
+```
+
+This takes ~10–15 minutes, mostly waiting on the Agent Runtime. When it
+finishes, grab the values you'll need next:
+
+```bash
+terraform output
+```
+
+**2. Open the frontend.** Visit the URL in `amplify_default_domain`. The
+`null_resource.deploy_frontend` deployment kicked off during `apply` usually
+finishes within a minute or two of `apply` completing — if you get a 404,
+wait briefly and refresh, or check status with:
+
+```bash
+aws amplify get-job --app-id <amplify_app_id> --branch-name staging --job-id <job-id-from-apply-log>
+```
+
+**3. Configure the app.** On first load it shows a setup screen — fill it in
+with the Terraform outputs:
+
+| Field | Value |
+|---|---|
+| User Pool ID | `cognito_user_pool_id` output |
+| User Pool Client ID | `cognito_user_pool_client_id` output |
+| Identity Pool ID | `cognito_identity_pool_id` output |
+| Region | `us-east-1` |
+| Agent Selection | `AgentCore Agent` |
+| AgentCore ARN | `agent_runtime_arn` output |
+| Region | `us-east-1` |
+
+Click Save — this config is stored client-side (browser), not by Terraform.
+
+**4. Log in.** Username is `AppUser` (or whatever `test_user_username` was set
+to) with the password you passed in step 1. First login forces a password
+change.
+
+**5. Test it.** Try *"What's the weather tomorrow in Dallas, Texas?"* or
+*"Can I go swimming in Chicago this weekend?"* — watch it chain
+`get_current_time` → `get_coordinates` → `get_forecast` automatically.
+
 ## Module coverage
 
 | Module | Covered | Where |
@@ -82,62 +138,6 @@ kept at the repo root for archival purposes (the exact artifacts the console
 workflow produced/consumed). `agent/` and `frontend/` hold the unpacked,
 source-controllable equivalents that Terraform actually builds from and
 uploads on `apply` — the zips themselves aren't read by Terraform.
-
-## Quickstart
-
-**Prerequisites:** `terraform` (>= 1.5), `aws` CLI configured with credentials
-for the target account (`us-east-1`), `pip`, `zip`. The agent runtime code and
-frontend bundle are both built/zipped and uploaded locally during `apply` —
-see `terraform/artifact.tf` and `terraform/amplify.tf`.
-
-**1. Apply.** The test user's password has no default (so nothing sensitive
-lives in this repo) — pass it with `-var`, or put it in a gitignored
-`*.tfvars` file:
-
-```bash
-cd terraform
-terraform init
-terraform apply -var="test_user_password=<something satisfying the password policy>"
-```
-
-This takes ~10–15 minutes, mostly waiting on the Agent Runtime. When it
-finishes, grab the values you'll need next:
-
-```bash
-terraform output
-```
-
-**2. Open the frontend.** Visit the URL in `amplify_default_domain`. The
-`null_resource.deploy_frontend` deployment kicked off during `apply` usually
-finishes within a minute or two of `apply` completing — if you get a 404,
-wait briefly and refresh, or check status with:
-
-```bash
-aws amplify get-job --app-id <amplify_app_id> --branch-name staging --job-id <job-id-from-apply-log>
-```
-
-**3. Configure the app.** On first load it shows a setup screen — fill it in
-with the Terraform outputs:
-
-| Field | Value |
-|---|---|
-| User Pool ID | `cognito_user_pool_id` output |
-| User Pool Client ID | `cognito_user_pool_client_id` output |
-| Identity Pool ID | `cognito_identity_pool_id` output |
-| Region | `us-east-1` |
-| Agent Selection | `AgentCore Agent` |
-| AgentCore ARN | `agent_runtime_arn` output |
-| Region | `us-east-1` |
-
-Click Save — this config is stored client-side (browser), not by Terraform.
-
-**4. Log in.** Username is `AppUser` (or whatever `test_user_username` was set
-to) with the password you passed in step 1. First login forces a password
-change.
-
-**5. Test it.** Try *"What's the weather tomorrow in Dallas, Texas?"* or
-*"Can I go swimming in Chicago this weekend?"* — watch it chain
-`get_current_time` → `get_coordinates` → `get_forecast` automatically.
 
 ## Notes
 
