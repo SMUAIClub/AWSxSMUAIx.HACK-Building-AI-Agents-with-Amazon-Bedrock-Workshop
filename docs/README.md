@@ -90,3 +90,12 @@ Upon completion of this workshop, you will:
 ## Cleanup
 
 Don't forget to clean up the environment after completing the workshop.
+
+## A note on rights
+
+Everything in this `docs/` folder — the module text, code snippets, and
+`agentcore-weather-agent-modules-5-7.pdf` — is the original workshop content
+written by AWS and the workshop instructors, archived here verbatim for
+participants' reference. It is **not** covered by this repo's
+[MIT license](../LICENSE), which applies only to the Terraform reconstruction
+and analysis notes that are original to this repo.

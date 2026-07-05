@@ -148,3 +148,11 @@ change.
   and are not stored anywhere in this repo.
 - `terraform plan` was run and validated against the real account/provider
   schema (40 resources, 0 errors); `apply` was not run.
+
+## License
+
+The original work in this repo (Terraform, README, workshop-analysis notes)
+is [MIT licensed](LICENSE). The archived original workshop materials under
+[`docs/`](docs/README.md) — and the Lambda/agent/frontend source derived from
+them — remain the property of AWS and the workshop authors, included here for
+reference only, not relicensed.
