@@ -10,6 +10,10 @@ Region is fixed to `us-east-1` (workshop account restriction).
 
 ![Architecture diagram: browser authenticates via Cognito and gets temporary credentials from the Identity Pool, loads the frontend from Amplify, and calls the AgentCore Runtime (Strands agent on Nova 2 Lite), which uses AgentCore Memory and the AgentCore Gateway to invoke the geo_coordinates, weather_forecast, and date_time Lambda functions.](assets/architecture.png)
 
+## Demo
+
+[![Demo video: architecture diagram alongside the Virtual Meteorologist login screen — click to watch](assets/demo-thumbnail.png)](assets/demo.mp4)
+
 ## Quickstart
 
 **Prerequisites:** `terraform` (>= 1.5), `aws` CLI configured with credentials
