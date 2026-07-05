@@ -4,6 +4,8 @@ Terraform reconstruction of the "Build a Weather AI Agent with Amazon Bedrock
 AgentCore" workshop (AWS x SMU AI & Hack), built by hand in the console.
 Region is fixed to `us-east-1` (workshop account restriction).
 
+**Event page:** [AWS x .HACK x SMUAI: Building AI Agents with Amazon Bedrock](https://luma.com/ec1c6z10)
+
 ## Module coverage
 
 | Module | Covered | Where |
