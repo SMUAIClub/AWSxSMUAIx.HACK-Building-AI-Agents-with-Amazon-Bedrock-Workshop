@@ -6,6 +6,10 @@ Region is fixed to `us-east-1` (workshop account restriction).
 
 **Event page:** [AWS x .HACK x SMUAI: Building AI Agents with Amazon Bedrock](https://luma.com/ec1c6z10)
 
+## Architecture
+
+![Architecture diagram: browser authenticates via Cognito and gets temporary credentials from the Identity Pool, loads the frontend from Amplify, and calls the AgentCore Runtime (Strands agent on Nova 2 Lite), which uses AgentCore Memory and the AgentCore Gateway to invoke the geo_coordinates, weather_forecast, and date_time Lambda functions.](assets/architecture.png)
+
 ## Module coverage
 
 | Module | Covered | Where |
