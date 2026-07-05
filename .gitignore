@@ -4,11 +4,6 @@
 terraform/.build/
 agent/.build/
 frontend/.build/
-
-# Raw downloads from the workshop console — superseded by the unpacked,
-# version-controllable copies in agent/ and frontend/.
-/agent-runtime.zip
-/AWS-Amplify-Frontend.zip
 crash.log
 crash.*.log
 *.tfvars

@@ -64,6 +64,7 @@ during real weather queries.
 ## Layout
 
 ```
+docs/            original lab guide, archived module-by-module (docs/README.md)
 agent/           main.py (agent runtime code) + requirements.txt + build.sh
 lambdas/         source for the 3 tool Lambdas
 frontend/        pre-built frontend bundle (index.html + assets/) + deploy.sh
@@ -71,10 +72,10 @@ terraform/       all infra
 ```
 
 The original `agent-runtime.zip` and `AWS-Amplify-Frontend.zip` downloads are
-gitignored — both are build artifacts (a 25MB zip of vendored Python deps,
-and a minified Vite bundle) with no diffing value in version control.
-`agent/` and `frontend/` hold the unpacked, source-controllable equivalents;
-Terraform rebuilds/re-uploads the zips from them on `apply`.
+kept at the repo root for archival purposes (the exact artifacts the console
+workflow produced/consumed). `agent/` and `frontend/` hold the unpacked,
+source-controllable equivalents that Terraform actually builds from and
+uploads on `apply` — the zips themselves aren't read by Terraform.
 
 ## Quickstart
 
