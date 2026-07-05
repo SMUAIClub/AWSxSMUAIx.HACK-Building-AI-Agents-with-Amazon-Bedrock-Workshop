@@ -111,18 +111,6 @@ that Terraform's resource references make structurally impossible.
   `frontend/deploy.sh` (the CLI equivalent of the console's drag-and-drop
   upload: `create-deployment` → upload zip → `start-deployment`).
 
-## Known gap (closed)
-
-`date_time` was originally deployed and referenced in the agent's system
-prompt, but never registered as a Gateway target — so the agent had no way to
-actually call it. This has since been added manually via the console (Module
-3, Step 7, tool name `get_current_time`, `timezone` required), and
-`terraform/gateway_targets.tf` mirrors that exact configuration. Confirmed via
-CloudWatch logs (`/aws/bedrock-agentcore/runtimes/virtual_meteorologist-*`)
-that runtime sessions after the target was created report
-`Retrieved 3 tools from Gateway`, and that `get_current_time` fires correctly
-during real weather queries.
-
 ## Layout
 
 ```

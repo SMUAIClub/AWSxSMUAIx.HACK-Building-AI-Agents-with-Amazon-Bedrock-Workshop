@@ -274,11 +274,9 @@ Click **Add another target** and configure:
 
 **Outbound Auth** — select **IAM Role**.
 
-> This target is easy to miss — it's the one gap found when this workshop
-> was reverse-engineered into Terraform (see the main
-> [Terraform README](../README.md#known-gap-closed)): `date_time` was
-> deployed and referenced in the agent's system prompt, but not registered
-> as a Gateway target until this step was completed.
+> This target is easy to miss — `date_time` gets deployed and referenced in
+> the agent's system prompt well before this step, so it's easy to forget to
+> come back and register it as a Gateway target too.
 
 ### Step 8: Create the Gateway
 
